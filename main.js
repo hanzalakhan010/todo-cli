@@ -6,6 +6,7 @@ helpMessage = `
 $add todo             # adds todo with title todo,
 $add todo priority    # adds todo with deadline, this will prioritize todo
 $show                 # prints all todos
+$show -done           # prints all todos flagged as done
 $show todo            # details about todo 
 $done todo            # flag todo as todo as done
 $quit                 # to quit application
@@ -55,7 +56,9 @@ function setDone(todo) {
   }
   console.log("No todo found with this title");
 }
-
+function showDones(){
+    console.log(doneTodos)
+}
 do {
   // console.log(helpMessage)
   input = prompt("$");
@@ -72,6 +75,10 @@ do {
 
       case "show": {
         if (tokens[1]) {
+            if(tokens[1]=='-done'){
+                showDones()
+                break
+            }  
           let todo = tokens[1];
           showTodo(todo);
         } else {
