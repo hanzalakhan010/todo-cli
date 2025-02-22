@@ -9,13 +9,25 @@ $show                 # prints all todos
 $show todo            # details about todo 
 $done todo            # flag todo as todo as done
 $quit                 # to quit application
-
 `;
+
 var todos = [];
+var doneTodos = []
 function showAllTodos() {
   console.log(todos);
 }
 
+function sortTodos() {
+  for (let i = 0; i < todos.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (todos[j].priority < todos[j + 1].priority) {
+        temp = todos[j];
+        todos[j] = todos[j + 1];
+        todos[j + 1] = temp;
+      }
+    }
+  }
+}
 function showTodo(todo) {
   for (let i = 0; i < todos.length; i++) {
     if (todos[i].todo == todo) {
@@ -36,6 +48,8 @@ function setDone(todo) {
   for (let i = 0; i < todos.length; i++) {
     if (todos[i].todo == todo) {
       todos[i].status = "Done";
+      doneTodos.push(todos[i])
+      todos.splice(i,1)
       return;
     }
   }
@@ -45,6 +59,7 @@ function setDone(todo) {
 do {
   // console.log(helpMessage)
   input = prompt("$");
+  sortTodos()
   if (input) {
     tokens = input.split(" ");
     switch (tokens[0]) {
