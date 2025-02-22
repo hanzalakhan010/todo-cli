@@ -3,12 +3,12 @@ const prompt = require("prompt-sync")();
 var flag = true;
 
 helpMessage = `
-$add todo         # adds todo with title todo,
-$add todo date    # adds todo with deadline, this will prioritize todo
-$show             # prints all todos
-$show todo        # details about todo 
-$done todo        # flag todo as todo as done
-$quit             # to quit application
+$add todo             # adds todo with title todo,
+$add todo priority    # adds todo with deadline, this will prioritize todo
+$show                 # prints all todos
+$show todo            # details about todo 
+$done todo            # flag todo as todo as done
+$quit                 # to quit application
 
 `;
 var todos = [];
@@ -25,11 +25,11 @@ function showTodo(todo) {
   }
   console.log(`No todo found with this title`);
 }
-function addTodo(todo, date) {
-  if (date) {
-    todos.push({ todo, date, status: "Pending" });
+function addTodo(todo, priority) {
+  if (priority) {
+    todos.push({ todo, priority: Number(priority), status: "Pending" });
   } else {
-    todos.push({ todo, status: "Pending" });
+    todos.push({ todo, priority: 0, status: "Pending" });
   }
 }
 function setDone(todo) {
@@ -50,8 +50,8 @@ do {
     switch (tokens[0]) {
       case "add": {
         let todo = tokens[1];
-        let date = tokens[2];
-        addTodo(todo, date);
+        let priority = tokens[2];
+        addTodo(todo, priority);
         break;
       }
 
