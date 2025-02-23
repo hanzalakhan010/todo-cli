@@ -21,7 +21,7 @@ function showAllTodos() {
 function sortTodos() {
   for (let i = 0; i < todos.length; i++) {
     for (let j = 0; j < i; j++) {
-      if (todos[j].priority < todos[j + 1].priority) {
+      if (todos[j].priority > todos[j + 1].priority) {
         temp = todos[j];
         todos[j] = todos[j + 1];
         todos[j + 1] = temp;
@@ -58,6 +58,23 @@ function setDone(todo) {
 }
 function showDones(){
     console.log(doneTodos)
+}
+function editTodo(todo){
+    for(let i=0;i<todos.length;i++){
+        if (todos[i].todo == todo){
+            let title = prompt('Enter new title or leave blank: ')
+            let priority = prompt('Enter updated priority: ')
+            if (title){
+              todos[i].todo = title.trim()
+            }
+            if (priority){
+              todos[i].priority = Number(priority)
+            }
+        }
+        else{
+          console.log('No todo found with this title')
+        }
+    }
 }
 do {
   // console.log(helpMessage)
@@ -102,6 +119,11 @@ do {
       case "help": {
         console.log(helpMessage);
         break;
+      }
+      case 'edit':{
+        let todo = tokens[1]
+        editTodo(todo)
+        break
       }
       default: {
         console.log("Invalid Syntax");
