@@ -1,19 +1,19 @@
 helpMessage = `
 $add todo             # adds todo with title todo,
-<br>
+<p>
 $show                 # prints all todos
-<br>
+<p>
 $show -done           # prints all todos flagged as done
-<br>
+<p>
 $show todo            # details about todo 
-<br>
+<p>
 $done todo            # flag todo as todo as done
-<br>
+<p>
 $clear                # to clear the terminal
-<br>
+<p>
 $save                 # to save the current state
-<br>
-## working on save please be patient
+<p>
+## working on save command please be patient
 `;
 var todos = [];
 var doneTodos = [];
