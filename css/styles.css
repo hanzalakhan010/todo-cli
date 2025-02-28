@@ -1,0 +1,36 @@
+* {
+  font-family: "Courier New", Courier, monospace;
+  font-size: medium;
+}
+body {
+  background-color: black;
+}
+p.output{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#terminal {
+  /* margin-left:100px ; */
+  /* width: 100%; */
+  /* height: 100vh; */
+  color: green;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+table{
+    width: 70%; 
+    text-align: center;
+
+}
+#input {
+    width: 90%;
+  background-color: black;
+  color: green;
+  outline: none;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
