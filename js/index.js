@@ -1,3 +1,16 @@
+helpMessage = `
+$add todo             # adds todo with title todo,
+$add todo priority    # adds todo with deadline, this will prioritize todo
+$show                 # prints all todos
+$show -done           # prints all todos flagged as done
+$show todo            # details about todo 
+$done todo            # flag todo as todo as done
+$clear                # to clear the terminal
+$save                 # to save the current state
+## working on save please be patient
+`;
+var todos = [];
+var doneTodos = [];
 function appendOutputLine(content) {
   document.getElementById("output").innerHTML += `
     <p class = 'output'>
@@ -28,21 +41,9 @@ function clearOutput() {
   document.getElementById("output").innerHTML = "";
 }
 
-helpMessage = `
-$add todo             # adds todo with title todo,
-$add todo priority    # adds todo with deadline, this will prioritize todo
-$show                 # prints all todos
-$show -done           # prints all todos flagged as done
-$show todo            # details about todo 
-$done todo            # flag todo as todo as done
-$quit                 # to quit application
-`;
-
-var todos = [];
-var doneTodos = [];
 function showAllTodos() {
   //   console.log(todos);
-  appendOutputTable(todos,['TODO','Priority','Status']);
+  appendOutputTable(todos, ["TODO", "Priority", "Status"]);
   //   appendOutputLine(todos)
 }
 
@@ -88,7 +89,7 @@ function setDone(todo) {
   //   console.log("No todo found with this title");
 }
 function showDones() {
-  appendOutputTable(doneTodos,['DONE',"Priorirty",'Status']);
+  appendOutputTable(doneTodos, ["DONE", "Priorirty", "Status"]);
   // console.log(doneTodos)
 }
 // function editTodo(todo){
@@ -162,20 +163,36 @@ function runCommand(command) {
     }
   }
 }
+// function saveState() {
+//     localStorage.setItem('todos',JSON.stringify(todos))
+//     localStorage.setItem('done',JSON.stringify(doneTodos))
+// }
+// function loadState(){
+//     var todos = JSON.parse(localStorage.getItem('todos'))
+//     var doneTodos = JSON.parse(localStorage.getItem('done'))
+// }
+document.addEventListener('onload',()=>{
+    loadState()
+})
 document.addEventListener("click", () => {
   document.getElementById("input").focus();
 });
 document.getElementById("input").addEventListener("keydown", ({ key }) => {
   if (key === "Enter") {
+    // saveState()
     inputContent = document.getElementById("input").value;
-    if (inputContent !== "clear") {
+    if (inputContent !== "clear" && inputContent !=='save') {
       appendOutputLine(`$${inputContent}`);
       let command = inputContent;
       runCommand(command);
     } else if (inputContent === "clear") {
       clearOutput();
     }
+    else if (inputContent === 'save'){
+        saveState()
+        appendOutputLine('Saved the state')
 
+    }
     document.getElementById("input").value = "";
   }
 });
