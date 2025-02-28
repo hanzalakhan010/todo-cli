@@ -62,7 +62,7 @@ function showTodo(todo) {
   for (let i = 0; i < todos.length; i++) {
     if (todos[i].todo == todo) {
       //   console.log(todos[i]);
-      appendOutputLine(todos[i]);
+      appendOutputTable([todos[i]],["TODO", "Priority", "Status"])
       return;
     }
   }
