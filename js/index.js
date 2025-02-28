@@ -1,6 +1,5 @@
 helpMessage = `
 $add todo             # adds todo with title todo,
-$add todo priority    # adds todo with deadline, this will prioritize todo
 $show                 # prints all todos
 $show -done           # prints all todos flagged as done
 $show todo            # details about todo 
@@ -43,43 +42,47 @@ function clearOutput() {
 
 function showAllTodos() {
   //   console.log(todos);
-  appendOutputTable(todos, ["TODO", "Priority", "Status"]);
+  appendOutputTable(todos, ["ID", "TODO", "Status"]);
   //   appendOutputLine(todos)
 }
 
-function sortTodos() {
+// function sortTodos() {
+//   for (let i = 0; i < todos.length; i++) {
+//     for (let j = 0; j < i; j++) {
+//       if (todos[j].priority > todos[j + 1].priority) {
+//         temp = todos[j];
+//         todos[j] = todos[j + 1];
+//         todos[j + 1] = temp;
+//       }
+//     }
+//   }
+// }
+function showTodo(id) {
   for (let i = 0; i < todos.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (todos[j].priority > todos[j + 1].priority) {
-        temp = todos[j];
-        todos[j] = todos[j + 1];
-        todos[j + 1] = temp;
-      }
-    }
-  }
-}
-function showTodo(todo) {
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].todo == todo) {
+    if (todos[i].id == id) {
       //   console.log(todos[i]);
-      appendOutputTable([todos[i]],["TODO", "Priority", "Status"])
+      appendOutputTable([todos[i]], ["ID", "TODO", "Status"]);
       return;
     }
   }
   appendOutputLine(`No todo found with this title`);
   //   console.log(`No todo found with this title`);
 }
-function addTodo(todo, priority) {
-  if (priority) {
-    todos.push({ todo, priority: Number(priority), status: "Pending" });
-  } else {
-    todos.push({ todo, priority: 0, status: "Pending" });
+function addTodo(todo) {
+  if (todos.length) {
+    let id = todos.slice(-1)[0]["id"] + 1;
+    todos.push({ id, todo, status: "Pending" });
+    appendOutputLine(`ADDED TODO WITH ID ${ID} `);
+    return;
   }
+  todos.push({ id: 1, todo, status: "Pending" });
+  appendOutputLine(`ADDED TODO WITH ID ${1} `);
 }
-function setDone(todo) {
+function setDone(id) {
   for (let i = 0; i < todos.length; i++) {
-    if (todos[i].todo == todo) {
+    if (todos[i].id == id) {
       todos[i].status = "Done";
+      appendOutputLine(`SET ${todos[i].todo} to done`);
       doneTodos.push(todos[i]);
       todos.splice(i, 1);
       return;
@@ -89,7 +92,7 @@ function setDone(todo) {
   //   console.log("No todo found with this title");
 }
 function showDones() {
-  appendOutputTable(doneTodos, ["DONE", "Priorirty", "Status"]);
+  appendOutputTable(doneTodos, ["DONE", "TODO", "Status"]);
   // console.log(doneTodos)
 }
 // function editTodo(todo){
@@ -116,7 +119,7 @@ function runCommand(command) {
       case "add": {
         let todo = tokens[1];
         let priority = tokens[2];
-        addTodo(todo, priority);
+        addTodo(todo);
         break;
       }
 
@@ -134,9 +137,9 @@ function runCommand(command) {
         break;
       }
       case "done": {
-        let todo = tokens[1];
-        if (todo) {
-          setDone(todo.trim());
+        let id = tokens[1];
+        if (id) {
+          setDone(id.trim());
         } else {
           appendOutputLine("Please specify todo name");
           //   console.log("Please specify todo name");
@@ -171,9 +174,9 @@ function runCommand(command) {
 //     var todos = JSON.parse(localStorage.getItem('todos'))
 //     var doneTodos = JSON.parse(localStorage.getItem('done'))
 // }
-document.addEventListener('onload',()=>{
-    loadState()
-})
+document.addEventListener("onload", () => {
+  loadState();
+});
 document.addEventListener("click", () => {
   document.getElementById("input").focus();
 });
@@ -181,7 +184,7 @@ document.getElementById("input").addEventListener("keydown", ({ key }) => {
   if (key === "Enter") {
     // saveState()
     inputContent = document.getElementById("input").value;
-    if (inputContent !== "clear" && inputContent !=='save') {
+    if (inputContent !== "clear" && inputContent !== "save") {
       appendOutputLine(`$${inputContent}`);
       let command = inputContent;
       runCommand(command);
