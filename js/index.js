@@ -188,11 +188,11 @@ document.getElementById("input").addEventListener("keydown", ({ key }) => {
     } else if (inputContent === "clear") {
       clearOutput();
     }
-    else if (inputContent === 'save'){
-        saveState()
-        appendOutputLine('Saved the state')
+    // else if (inputContent === 'save'){
+    //     saveState()
+    //     appendOutputLine('Saved the state')
 
-    }
+    // }
     document.getElementById("input").value = "";
   }
 });
